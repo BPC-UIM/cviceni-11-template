@@ -1,0 +1,34 @@
+paths:                        # vstupy a vystupy, relativne ke koreni repozitare
+  temperature_csv: data/daily_min_temperatures.csv   # rada dennich teplot (cast B)
+  graphs_dir: graphs          # vystupni grafy (.png)
+  models_dir: models          # ulozene modely (state_dict, .pt)
+  logs_dir: logs              # log uceni (trainer.log)
+
+sinusoid:                     # data casti A: zasumena sinusovka na intervalu [-pi, pi]
+  n_samples: 300              # pocet bodu
+  noise: 0.1                  # smerodatna odchylka gaussovskeho sumu
+
+regression:                   # cast A: regrese (sinusovka + diabetes)
+  hidden_dims: [32, 16]       # skryte vrstvy; vstup a linearni vystup (1) se dopocitaji
+  lr: 0.01                    # krok uceni optimizeru SGD
+  epochs: 500                 # pocet pruchodu trenovacimi daty
+  batch_size: 32              # velikost davky v DataLoaderu
+  test_size: 0.2              # podil testovacich vzorku (NAHODNE rozdeleni)
+
+forecast:                     # cast B: predpoved casove rady (denni minimalni teploty)
+  window_size: 14             # delka okna: kolik poslednich hodnot rady predpovida dalsi
+  hidden_dims: [32, 16]       # skryte vrstvy; vstup ma window_size hodnot
+  lr: 0.01                    # krok uceni optimizeru SGD
+  epochs: 300                 # pocet pruchodu trenovacimi okny
+  batch_size: 32              # velikost davky v DataLoaderu
+  train_frac: 0.8             # podil rady na uceni (CHRONOLOGICKE rozdeleni, bez michani)
+
+diagnostics:                  # prahy kontrol, ktere pipeline vypisuje
+  divergence_factor: 10.0     # divergence: konecna trenovaci ztrata > 10x ztrata 1. epochy
+  overfit_rise: 0.10          # preuceni: konecna validacni ztrata o vic nez 10 % nad minimem ...
+  overfit_min_fraction: 0.9   # ... a minimum nastalo pred 90 % epoch
+  load_tolerance: 1.0e-6      # max. rozdil predikci puvodniho a nacteneho modelu
+  zero_error_tolerance: 1.0e-12  # baseline s nulovou chybou = vraci samotne cile
+  normality_alpha: 0.05       # hladina vyznamnosti Shapirova-Wilkova testu
+
+seed: 42                      # seed rozdeleni dat, inicializace vah i michani davek (>= 0)

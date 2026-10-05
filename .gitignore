@@ -216,3 +216,21 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- Cviceni 11: vlastni blok ---
+# Vystupni grafy (graphs/), ulozene modely (models/, torch.save state_dict -> .pt)
+# a logy uceni (logs/, RotatingFileHandler -> trainer.log, trainer.log.1, ...)
+# vznikaji za behu a do repozitare se nekomituji; prazdne adresare drzi .gitkeep.
+# Zadne plosne *.png -- pripadne obrazky k README v docs/img/ se verzuji.
+graphs/*.png
+!graphs/.gitkeep
+models/*.pt
+!models/.gitkeep
+logs/*.log
+logs/*.log.*
+!logs/.gitkeep
+
+# Reseni papirovych prikladu se nesiri se sablonou.
+priklady_11_reseni.md
+
+.vscode/
